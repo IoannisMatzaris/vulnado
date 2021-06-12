@@ -16,7 +16,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: "DELETE",
-        url: "http://localhost:8080/comments/" + id
+        url: "http://localhost:8081/comments/" + id
       }).done(function(){
         $(parent).remove();
       });
@@ -24,7 +24,7 @@ $(document).ready(function(){
   }
 
   function fetchComments() {
-    $.get("http://localhost:8080/comments", function(data){
+    $.get("http://localhost:8081/comments", function(data){
       $('#comments-container').html('')
       data.forEach(function(comment){
         if (comment.body.indexOf("<script>") < 0) {
@@ -41,7 +41,7 @@ $(document).ready(function(){
     var username = localStorage.username;
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/comments",
+      url: "http://localhost:8081/comments",
       data: JSON.stringify({username: username, body: comment}),
       dataType: "json",
       contentType: "application/json",
