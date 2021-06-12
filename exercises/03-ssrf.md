@@ -13,7 +13,7 @@ This can take multiple forms:
 
 We have an endpoint that will reach out to a website and scrape the HTML for valid links. This is a very common practice for web crawling. You can try it out by running:
 ```
-curl 'http://localhost:8080/links?url=http://wikipedia.com' | jq .
+curl 'http://localhost:8081/links?url=http://wikipedia.com' | jq .
 ```
 
 When an attacker typically wants to try to exploit a SSRF vulnerability, they will iterate over all internal IPs. They would typically get this list by looking at defaults, such as common VPC networks in AWS such as the `10.0.0.0/24` subnet. How they get the list of internal IPs to iterate over is out of scope for this lesson, but you can obtain a list of IPs to the Docker network by running:
@@ -33,7 +33,7 @@ Once you have this list try to execute a SSRF attack against the endpoint `/link
   The IP address that worked for you will likely be different, but this lab shows that even though you cannot access the internal site from outside, the web server can. Therefore, using a SSRF attack, you can gain valuable information from this internal site such as a list of internal email addresses.
 
   ```
-  $ curl 'http://localhost:8080/links?url=http://172.19.0.2' | jq .
+  $ curl 'http://localhost:8081/links?url=http://172.19.0.2' | jq .
   [
     "mailto:alice@example.com?subject=feedback",
     "mailto:bob@example.com?subject=feedback",

